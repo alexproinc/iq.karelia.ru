@@ -1,12 +1,16 @@
 // ==UserScript==
 // @name         IQ.KARELIA.RU
 // @namespace    http://iq.karelia.ru/
-// @version      0.1
+// @version      0.2
 // @description  try to take over the world!
 // @author       Aleksei Turcevich
 // @match        http://iq.karelia.ru/next1.php
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
 // @grant        none
+// @source       https://github.com/alexproinc/iq.karelia.ru/
+// @updateURL    https://github.com/alexproinc/iq.karelia.ru/raw/master/IQ.KARELIA.RU.user.js
+// @downloadURL  https://github.com/alexproinc/iq.karelia.ru/raw/master/IQ.KARELIA.RU.user.js
+// @supportURL   https://github.com/alexproinc/iq.karelia.ru/wiki
 // ==/UserScript==
 /* jshint -W097 */
 'use strict';
@@ -40,7 +44,6 @@ $(document).ready(function(){
         });
         questionText += crosslines(text);
     });
-    
-    //alert(questionText);
+
     questionTable.append('<div>'+questionText+'</div>');
 });
