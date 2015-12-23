@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         IQ.KARELIA.RU
 // @namespace    http://iq.karelia.ru/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       Aleksei Turcevich
 // @match        http://iq.karelia.ru/next1.php
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
-// @grant        none
+// @resource     new_logo https://raw.githubusercontent.com/alexproinc/iq.karelia.ru/master/iq_large.gif
+// @grant        GM_getResourceURL
+// @grant        GM_addStyle
 // @source       https://github.com/alexproinc/iq.karelia.ru/
 // @updateURL    https://github.com/alexproinc/iq.karelia.ru/raw/master/IQ.KARELIA.RU.user.js
 // @downloadURL  https://github.com/alexproinc/iq.karelia.ru/raw/master/IQ.KARELIA.RU.user.js
@@ -27,13 +29,16 @@ var crosslines = function(lines) {
     return str.join('');
 }
 
-// Your code here...
-$(document).ready(function(){
+$(document).ready(function() {
     var $=window.jQuery;
     var questionTable = $("table[bgcolor='#FAF3FF']");
     var questionDiv = questionTable.find('div');
     var questionTables = questionDiv.find('table');
     var questionText = "";
+    
+    GM_addStyle(".q {background: white; padding: 10px 30px; border: #faf3ff solid 3px;}");
+    $("img[height='90']").attr("src", GM_getResourceURL("new_logo"));
+    questionDiv.css("background", "lightgray");
 
     questionTables.each(function( index ) {
         var kbd = $( this ).find("pre.kbd");
@@ -42,8 +47,8 @@ $(document).ready(function(){
             $(this).children("img").remove();
             text.push($(this).text());
         });
-        questionText += crosslines(text);
+        questionText += crosslines(text) + " ";
     });
 
-    questionTable.append('<div>'+questionText+'</div>');
+    questionTable.append('<div class="q">'+questionText+'</div>');
 });
