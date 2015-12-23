@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IQ.KARELIA.RU
 // @namespace    http://iq.karelia.ru/
-// @version      0.4
+// @version      0.41
 // @description  try to take over the world!
 // @author       Aleksei Turcevich
 // @match        http://iq.karelia.ru/next1.php
