@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IQ.KARELIA.RU
 // @namespace    http://iq.karelia.ru/
-// @version      0.2
+// @version      0.3
 // @description  try to take over the world!
 // @author       Aleksei Turcevich
 // @match        http://iq.karelia.ru/next1.php
@@ -10,7 +10,7 @@
 // @source       https://github.com/alexproinc/iq.karelia.ru/
 // @updateURL    https://github.com/alexproinc/iq.karelia.ru/raw/master/IQ.KARELIA.RU.user.js
 // @downloadURL  https://github.com/alexproinc/iq.karelia.ru/raw/master/IQ.KARELIA.RU.user.js
-// @supportURL   https://github.com/alexproinc/iq.karelia.ru/wiki
+// @supportURL   https://github.com/alexproinc/iq.karelia.ru/issues
 // ==/UserScript==
 /* jshint -W097 */
 'use strict';
