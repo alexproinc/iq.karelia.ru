@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IQ.KARELIA.RU
 // @namespace    http://iq.karelia.ru/
-// @version      0.51
+// @version      0.53
 // @description  try to take over the world!
 // @author       Aleksei Turcevich
 // @match        http://iq.karelia.ru/next1.php
@@ -36,11 +36,13 @@ $(document).ready(function() {
     var questionTable = $("table[bgcolor='#FAF3FF']");
     var questionDiv = questionTable.find('div');
     var questionTables = questionDiv.find('table');
+    
+    var answerTable = $("table[bgcolor='white']").not($("table[bgcolor='#FAF3FF']"));
+    
     var questionState = $('font[color="#4040D0"]');
     var state = { current: 0, all: 0};
     var questionText = "";
     var center = $('center').first();
-    
     
     GM_addStyle(".q {background: white; padding: 10px 30px; border: #faf3ff solid 3px;}");
     GM_addStyle(".qlist {background: cornsilk; text-align: left; width: 80%; margin: 20px; padding: 10px;}");
@@ -51,10 +53,23 @@ $(document).ready(function() {
         var kbd = $( this ).find("pre.kbd");
         var text = [];
         kbd.each(function( index ) {
-            $(this).children("img").remove();
-            text.push($(this).text());
+            var clone = $(this).clone();
+            $(clone).children("img").remove();
+            text.push($(clone).text());
         });
         questionText += crosslines(text) + " ";
+    });
+    
+    answerTable.each(function( index ) {
+        var kbd = $( this ).find("pre.kbd");
+        var text = [];
+        kbd.each(function( index ) {
+            var clone = $(this).clone();
+            $(clone).children("img").remove();
+            text.push($(clone).text());
+        });
+        // TODO
+        //alert(crosslines(text));
     });
     
     var questionStateA = questionState.children("b").text().split('\u00A0');
