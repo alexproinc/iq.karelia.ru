@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IQ.KARELIA.RU
 // @namespace    http://iq.karelia.ru/
-// @version      0.5
+// @version      0.51
 // @description  try to take over the world!
 // @author       Aleksei Turcevich
 // @match        http://iq.karelia.ru/next1.php
@@ -63,7 +63,7 @@ $(document).ready(function() {
         state.current = questionStateA[1];
         state.all = questionStateA[3];
         //questionState.text(state.current + ' ' + state.all);
-        GM_setValue(state.current, questionText);
+        GM_setValue(state.current-1, questionText);
         center.append('<div class="qlist"><ol></ol></div>');
         for (var i = 0; i<state.current; i++)
         {
