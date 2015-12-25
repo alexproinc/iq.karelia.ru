@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IQ.KARELIA.RU
 // @namespace    http://iq.karelia.ru/
-// @version      0.53
+// @version      0.58
 // @description  try to take over the world!
 // @author       Aleksei Turcevich
 // @match        http://iq.karelia.ru/next1.php
@@ -20,13 +20,16 @@
 'use strict';
 
 var crosslines = function(lines) {
-    var n = Math.min(lines[0].length, lines[1].length);
     var str = [];
-    for (var i = 0; i < n; i++) {
-        if (lines[0][i] == " " && lines[1][i] != " ")
-            str.push(lines[1][i]);
-        else
-            str.push(lines[0][i]);
+    for (var j = 0; j < lines.length; j+=2)
+    {
+        var n = Math.min(lines[j].length, lines[j+1].length);
+        for (var i = 0; i < n; i++) {
+            if (lines[j][i] == " " && lines[j+1][i] != " ")
+                str.push(lines[j+1][i]);
+            else
+                str.push(lines[j][i]);
+        }
     }
     return str.join('');
 }
@@ -37,7 +40,8 @@ $(document).ready(function() {
     var questionDiv = questionTable.find('div');
     var questionTables = questionDiv.find('table');
     
-    var answerTable = $("table[bgcolor='white']").not($("table[bgcolor='#FAF3FF']"));
+    //var answerTable = $("table[bgcolor='white']").not($("table[bgcolor='#FAF3FF']"));
+    var answerTable = $("span.answ");
     
     var questionState = $('font[color="#4040D0"]');
     var state = { current: 0, all: 0};
@@ -46,6 +50,8 @@ $(document).ready(function() {
     
     GM_addStyle(".q {background: white; padding: 10px 30px; border: #faf3ff solid 3px;}");
     GM_addStyle(".qlist {background: cornsilk; text-align: left; width: 80%; margin: 20px; padding: 10px;}");
+    GM_addStyle(".qas {background: lavenderblush; text-align: left; width: 80%; margin: 20px; padding: 10px;}");
+    
     $("img[height='90']").attr("src", GM_getResourceURL("new_logo"));
     questionDiv.css("background", "lightgray");
 
@@ -60,6 +66,10 @@ $(document).ready(function() {
         questionText += crosslines(text) + " ";
     });
     
+    center.append('<div class="qas"></div>');
+    var qas = $('.qas');
+    
+    qas.append('<ul></ul>');
     answerTable.each(function( index ) {
         var kbd = $( this ).find("pre.kbd");
         var text = [];
@@ -68,10 +78,11 @@ $(document).ready(function() {
             $(clone).children("img").remove();
             text.push($(clone).text());
         });
-        // TODO
-        //alert(crosslines(text));
+        qas.children('ul').append('<li>'+crosslines(text)+'</li>');
     });
     
+    var qlist;
+    var moreLink = '<a id="more" href="#">more</a>';
     var questionStateA = questionState.children("b").text().split('\u00A0');
     if (questionStateA.length > 3)
     {
@@ -79,13 +90,21 @@ $(document).ready(function() {
         state.all = questionStateA[3];
         //questionState.text(state.current + ' ' + state.all);
         GM_setValue(state.current-1, questionText);
-        center.append('<div class="qlist"><ol></ol></div>');
+        center.append('<div class="qlist"><p>'+moreLink+'</p><ol></ol></div>');
+        qlist = $('.qlist');
+        qlist.children('ol').hide();
+ 
         for (var i = 0; i<state.current; i++)
         {
-            center.find('ol').append("<li>" + GM_getValue(i, 'none o_O') + "</li>");
+            qlist.children('ol').append("<li>" + GM_getValue(i, 'none o_O') + "</li>");
+            if (i == state.current-1) qlist.children('p').html(GM_getValue(i, 'none o_O') + ' ' + moreLink);
         }
     }
     
     questionTable.append('<div class="q">'+questionText+'</div>');
+    $('#more').click(function(){
+        qlist.children('p').slideUp();
+        qlist.children('ol').slideDown();
+    });
 
 });
